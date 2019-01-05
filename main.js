@@ -36,6 +36,7 @@ class Blockchain{
         this.chain.push(newBlock); // Because of the starting skipping all the conditions/security checks
     }
 
+    // To check the chain is valid or not
     isChainValid() {
         for (let i = 1; i < this.chain.length; i++){ // 0 is Genesis block, so start from 1
             const currentBlock = this.chain[i];
@@ -57,3 +58,18 @@ class Blockchain{
 let sampleCoin = new Blockchain();
 sampleCoin.addBlock(new Block(1, "02/01/2019", { amount: 4 }));
 sampleCoin.addBlock(new Block(2, "03/01/2019", { amount: 8 }));
+
+// Case 1: Genuine chain
+console.log("Is sampleCoin valid? " + sampleCoin.isChainValid());
+
+// Case 2:  Modified data content
+sampleCoin.chain[1].data = { amount: 25 };
+console.log("Is sampleCoin valid? " + sampleCoin.isChainValid());
+
+// Case 2:  Modified data content and hash
+sampleCoin.chain[1].data = { amount: 100 };
+sampleCoin.chain[1].hash = sampleCoin.chain[1].calculateHash();
+console.log("Is sampleCoin valid? " + sampleCoin.isChainValid());
+
+// Blockchain structure
+// console.log(JSON.stringify(sampleCoin, null, 4))
